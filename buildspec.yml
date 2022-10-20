@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:  
+        - echo Build started on `date` 
+  build:
+    commands:
+        - sam build        
+  post_build:        
+    commands:
+        - sam package         
+           --output-template-file package.yaml
+           --s3-bucket lamtstzip-repo-4f0x0xp8-tst
+        - echo Build completed on `date`
+artifacts:
+  files:  
+    - package.yaml

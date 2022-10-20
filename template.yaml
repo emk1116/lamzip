@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lam-tst-bs
+
+  Sample SAM Template for lam-tst-bs
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 28
+    Tracing: Active
+  Api:
+    TracingEnabled: True
+
+Resources:
+  TSTLAMFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: arn:aws:iam::752323630246:role/bnskLambdaExecuteRole
+      CodeUri: TSTLAMFunction
+      PackageType: Zip
+      Handler: helloworld.App::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          PARAM1: VALUE
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      DeploymentPreference:
+         Type: CodeDeployDefault.LambdaAllAtOnce
+         Role: arn:aws:iam::752323630246:role/bsnklambdadeployRole
+      AutoPublishAlias: live
